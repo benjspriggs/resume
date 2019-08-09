@@ -31,6 +31,15 @@ main {
     min-height: 80vh;
     padding-left: 5em;
     padding-right: 5em;
+    padding-bottom: 5em;
+
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
 }
 
 nav {
@@ -39,6 +48,20 @@ nav {
     flex-direction: row;
     position: relative;
     font-weight: bolder;
+}
+
+@media screen and (max-width: 1000px) {
+    nav {
+        flex-direction: column;
+        max-height: 0.88em;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    }
+
+    nav:hover {
+        max-height: 100%;
+        transition: max-height 1s ease-in-out;
+    }
 }
 
 footer {
@@ -56,6 +79,7 @@ a:active {
 nav.fixed {
     position: fixed;
     width: 100%;
+    animation: peekaboo 0.5s ease-in-out;
 }
 
 nav.phantom {
@@ -119,5 +143,15 @@ summary > span {
 
     100% {
         opacity: 100;
+    }
+}
+
+@keyframes peekaboo {
+    0% {
+        top: -100px;
+    }
+
+    100% {
+        top: 0px;
     }
 }
