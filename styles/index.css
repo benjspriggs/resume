@@ -125,9 +125,17 @@ nav.submenu:active {
 
 summary > span {
     color: var(--emphasized-text-color);
-    text-transform: uppercase;
+    text-transform: lowercase;
     font-style: italic;
     font-size: 0.8em;
+}
+
+summary > span:before {
+    content: "(";
+}
+
+summary > span:after {
+    content: ")";
 }
 
 @keyframes fadeFromNone {
