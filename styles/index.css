@@ -1,4 +1,4 @@
-body {
+:root {
     /*
         Credit for the color scheme goes to the Solarized project by Ethan Schoonover:
 
@@ -8,21 +8,23 @@ body {
     --highlight-background-color: #073642;
     --body-text-color: #839496;
     --emphasized-text-color: #93a1a1;
-
-    margin: 0;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 24px;
-    background-color: var(--background-color);
-    color: var(--body-text-color);
 }
 
 @media (prefers-color-scheme: light) {
-    body {
+    :root {
         --background-color: #fdf6e3;
         --highlight-background-color: #eee8d5;
         --body-text-color: #586e75;
         --emphasized-text-color: #073642;
     }
+}
+
+body {
+    margin: 0;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 24px;
+    background-color: var(--background-color);
+    color: var(--body-text-color);
 }
 
 main {
@@ -60,11 +62,15 @@ nav.phantom {
     visibility: hidden;
 }
 
-nav > a,
-nav > a:link,
-nav > a:visited,
-nav > a:hover,
-nav > a:active {
+nav > div {
+    display: flex;
+}
+
+nav a,
+nav a:link,
+nav a:visited,
+nav a:hover,
+nav a:active {
     color: var(--emphasized-text-color);
     text-decoration: none;
     padding-top: 1.25rem;
@@ -91,6 +97,13 @@ nav.submenu:active {
     flex-direction: column;
     opacity: 1;
     animation: fadeFromNone 0.5s ease-in;
+}
+
+summary > span {
+    color: var(--emphasized-text-color);
+    text-transform: uppercase;
+    font-style: italic;
+    font-size: 0.8em;
 }
 
 @keyframes fadeFromNone {
