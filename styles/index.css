@@ -1,9 +1,28 @@
 body {
+    /*
+        Credit for the color scheme goes to the Solarized project by Ethan Schoonover:
+
+        https://ethanschoonover.com/solarized/
+    */
+    --background-color: #002b36;
+    --highlight-background-color: #073642;
+    --body-text-color: #839496;
+    --emphasized-text-color: #93a1a1;
+
     margin: 0;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size: 16px;
-    background-color: #e7e4eb;
-    color: #003636;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 24px;
+    background-color: var(--background-color);
+    color: var(--body-text-color);
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        --background-color: #fdf6e3;
+        --highlight-background-color: #eee8d5;
+        --body-text-color: #586e75;
+        --emphasized-text-color: #073642;
+    }
 }
 
 main {
@@ -13,10 +32,23 @@ main {
 }
 
 nav {
-    background: #ff6;
+    background: var(--highlight-background-color);
     display: flex;
     flex-direction: row;
     position: relative;
+    font-weight: bolder;
+}
+
+footer {
+    background-color: #222;
+    color: #ff2;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: var(--emphasized-text-color);
 }
 
 nav.fixed {
@@ -28,12 +60,12 @@ nav.phantom {
     visibility: hidden;
 }
 
-footer {
-    background-color: #222;
-    color: #ff2;
-}
-
-nav > a {
+nav > a,
+nav > a:link,
+nav > a:visited,
+nav > a:hover,
+nav > a:active {
+    color: var(--emphasized-text-color);
     text-decoration: none;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
@@ -59,10 +91,6 @@ nav.submenu:active {
     flex-direction: column;
     opacity: 1;
     animation: fadeFromNone 0.5s ease-in;
-}
-
-section {
-    min-height: 50vh;
 }
 
 @keyframes fadeFromNone {
