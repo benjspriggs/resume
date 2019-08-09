@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 16px;
+    background-color: #e7e4eb;
+    color: #003636;
+}
+
+main {
+    min-height: 80vh;
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
+nav {
+    background: #ff6;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+nav.fixed {
+    position: fixed;
+    width: 100%;
+}
+
+nav.phantom {
+    visibility: hidden;
+}
+
+footer {
+    background-color: #222;
+    color: #ff2;
+}
+
+nav > a {
+    text-decoration: none;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+}
+
+nav.submenu {
+    position: absolute;
+    visibility: hidden;
+    top: 100%;
+    width: initial;
+}
+
+a.expander:hover ~ nav.submenu, 
+a.expander:active ~ nav.submenu,
+a.expander:focus ~ nav.submenu,
+nav.submenu:hover,
+nav.submenu:focus,
+nav.submenu:active {
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    animation: fadeFromNone 0.5s ease-in;
+}
+
+section {
+    min-height: 50vh;
+}
+
+@keyframes fadeFromNone {
+    0% {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .01% {
+        visibility: visible;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100;
+    }
+}
