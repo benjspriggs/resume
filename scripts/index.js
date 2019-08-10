@@ -64,6 +64,10 @@
     }
 
     window.onscroll = function (event) {
+        if (!shouldSetVisibilityFromScroll) {
+            return;
+        }
+
         window.requestAnimationFrame(function () {
             determineScrollDirection(event);
             setMenuVisibility(direction === scrollDirection.UP);
