@@ -23,6 +23,11 @@
         }
     }
 
+    function toggleMenuVisibility() {
+        direction = direction === scrollDirection.DOWN ? scrollDirection.UP : scrollDirection.DOWN;
+        setMenuVisibility();
+    }
+
     /**
      * 
      * @param {MouseWheelEvent} event 
@@ -37,19 +42,32 @@
         }
     }
 
+    /**
+     * 
+     * @param {MouseEvent} event 
+     */
+    function determineScrollDirection(event) {
+        if (event.pageY > lastPageY) {
+            direction = scrollDirection.DOWN;
+        } else {
+            direction = scrollDirection.UP;
+        }
+
+        lastPageY = event.pageY;
+    }
+
     window.onscroll = function (event) {
         window.requestAnimationFrame(function () {
-            if (event.pageY > lastPageY) {
-                direction = scrollDirection.DOWN;
-            } else {
-                direction = scrollDirection.UP;
-            }
-
-            lastPageY = event.pageY;
-
-            window.requestAnimationFrame(setMenuVisibility);
+            determineScrollDirection(event);
+            setMenuVisibility();
         });
     }
+
+    const toggleButtons = document.getElementsByClassName("toggle-menu-visiblity")
+
+    Array.from(toggleButtons).forEach(function (button) {
+        button.onclick = toggleMenuVisibility;
+    })
 })();
 
 (function () {
