@@ -1,6 +1,14 @@
 (function () {
+    window.addEventListener("load", function () {
+        document.documentElement.classList.remove("no-js");
+        document.documentElement.classList.add("js");
+    });
+}());
+
+(function () {
     let lastPageY = 0;
-    let direction = "";
+    let direction = "down";
+    let shouldSetVisibilityFromScroll = true;
     const mainMenu = document.getElementById("main-menu");
     const mainMenuPhantom = mainMenu.cloneNode(true);
     mainMenuPhantom.id = "";
@@ -24,21 +32,20 @@
     }
 
     function toggleMenuVisibility() {
-        direction = direction === scrollDirection.DOWN ? scrollDirection.UP : scrollDirection.DOWN;
-        setMenuVisibility();
+        setMenuVisibility(direction === scrollDirection.UP);
     }
 
     /**
-     * 
+     * @param {boolean} isVisible
      * @param {MouseWheelEvent} event 
      */
-    function setMenuVisibility() {
-        if (direction === scrollDirection.DOWN) {
-            mainMenu.classList.remove("fixed")
-            removePhantomFromDOM();
-        } else {
+    function setMenuVisibility(isVisible) {
+        if (isVisible) {
             mainMenu.classList.add("fixed")
             addPhantomToDOM();
+        } else {
+            mainMenu.classList.remove("fixed")
+            removePhantomFromDOM();
         }
     }
 
@@ -59,7 +66,15 @@
     window.onscroll = function (event) {
         window.requestAnimationFrame(function () {
             determineScrollDirection(event);
-            setMenuVisibility();
+            setMenuVisibility(direction === scrollDirection.UP);
+        });
+    };
+
+    if (window.matchMedia) {
+        const smallScreenQuery = window.matchMedia("(max-width: 1000px)");
+
+        smallScreenQuery.addListener(function (event) {
+            shouldSetVisibilityFromScroll = event.matches;
         });
     }
 
@@ -71,14 +86,7 @@
 })();
 
 (function () {
-    window.onload = function () {
-        document.documentElement.classList.remove("no-js");
-        document.documentElement.classList.add("js");
-    }
-}());
-
-(function () {
-    window.onload = function () {
+    window.addEventListener("load", function () {
         const links = document.getElementsByClassName("email-me")
 
         Array.from(links).forEach(function (element) {
@@ -88,5 +96,21 @@
 
             element.href = "mailto:" + name + "@" + domain + "." + tld;
         });
-    }
+    });
+}());
+
+(function () {
+    window.addEventListener("load", function () {
+        const buttons = document.getElementsByClassName("scroll-top")
+
+        Array.from(buttons).forEach(function (button) {
+            button.onclick = function () {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "auto"
+                });
+            };
+        });
+    });
 }());
