@@ -8,6 +8,8 @@
     --highlight-background-color: #073642;
     --body-text-color: #839496;
     --emphasized-text-color: #93a1a1;
+
+    scroll-behavior: smooth;
 }
 
 @media (prefers-color-scheme: light) {
@@ -53,7 +55,7 @@ nav {
 @media screen and (max-width: 1000px) {
     nav {
         flex-direction: column;
-        max-height: 0.88em;
+        max-height: 1.35em;
         overflow: hidden;
         transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
     }
