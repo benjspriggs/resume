@@ -94,7 +94,7 @@ a:active {
 }
 
 nav#main-menu {
-  --hidden-height: -1.5em;
+  --navigation-hidden-height: -1.5em;
 }
 
 nav.opening {
@@ -108,7 +108,7 @@ nav.closed {
   position: fixed;
   width: 100%;
   animation: hideaboo 0.5s ease-in-out;
-  top: var(--hidden-height);
+  top: var(--navigation-hidden-height);
 }
 
 nav.phantom {
@@ -185,7 +185,7 @@ summary > span:after {
 
 @keyframes peekaboo {
   0% {
-    top: var(--hidden-height);
+    top: var(--navigation-hidden-height);
   }
 
   100% {
@@ -199,6 +199,6 @@ summary > span:after {
   }
 
   100% {
-    top: var(--hidden-height);
+    top: var(--navigation-hidden-height);
   }
 }
