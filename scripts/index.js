@@ -134,6 +134,7 @@
 
     Array.from(buttons).forEach(function (button) {
       button.onclick = function () {
+        menu.reset();
         window.scrollTo({
           top: 0,
           left: 0,
