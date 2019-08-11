@@ -14,26 +14,56 @@
   mainMenuPhantom.id = "";
   mainMenuPhantom.classList.add("phantom");
 
-  const scrollDirection = {
-    'DOWN': 'down',
-    'UP': 'up'
-  };
+  const menu = (function () {
+    const scrollDirection = {
+      'DOWN': 'down',
+      'UP': 'up'
+    };
 
-  function removePhantomFromDOM() {
-    if (mainMenuPhantom.parentElement) {
-      mainMenuPhantom.parentElement.removeChild(mainMenuPhantom);
+    function removePhantomFromDOM() {
+      if (mainMenuPhantom.parentElement) {
+        mainMenuPhantom.parentElement.removeChild(mainMenuPhantom);
+      }
+    };
+
+    function addPhantomToDOM() {
+      if (!mainMenuPhantom.parentElement) {
+        mainMenu.parentElement.insertBefore(mainMenuPhantom, mainMenu.nextSibling);
+      }
     }
-  };
 
-  function addPhantomToDOM() {
-    if (!mainMenuPhantom.parentElement) {
-      mainMenu.parentElement.insertBefore(mainMenuPhantom, mainMenu.nextSibling);
-    }
-  }
+    let isOpen = true;
 
-  function toggleMenuVisibility() {
-    setMenuVisibility(direction === scrollDirection.UP);
+    return {
+      open: function () {
+        if (isOpen) return;
+
+        mainMenu.classList.add("opening")
+        mainMenu.classList.remove("closed")
+        addPhantomToDOM();
+        isOpen = true;
+      },
+      close: function () {
+        if (!isOpen) return;
+
+        mainMenu.classList.add("closed")
+        mainMenu.classList.remove("opening")
+        removePhantomFromDOM();
+        isOpen = false;
+      },
+      toggle: function () {
+        if (isOpen) {
+          menu.close();
+        } else {
+          menu.open();
+        }
+      },
+      reset: function () {
+        mainMenu.classList.remove("opening", "closed");
+      }
+    };
   }
+  )();
 
   /**
    * @param {boolean} isVisible
@@ -41,11 +71,9 @@
    */
   function setMenuVisibility(isVisible) {
     if (isVisible) {
-      mainMenu.classList.add("fixed")
-      addPhantomToDOM();
+      menu.open();
     } else {
-      mainMenu.classList.remove("fixed")
-      removePhantomFromDOM();
+      menu.close();
     }
   }
 
@@ -53,25 +81,22 @@
    * 
    * @param {MouseEvent} event 
    */
-  function determineScrollDirection(event) {
-    if (event.pageY > lastPageY) {
-      direction = scrollDirection.DOWN;
+  function determineScrollDirection() {
+    if (window.scrollY > lastPageY) {
+      menu.close();
     } else {
-      direction = scrollDirection.UP;
+      menu.open();
     }
 
-    lastPageY = event.pageY;
+    lastPageY = window.scrollY;
   }
 
-  window.onscroll = function (event) {
+  window.onscroll = function () {
     if (!shouldSetVisibilityFromScroll) {
       return;
     }
 
-    window.requestAnimationFrame(function () {
-      determineScrollDirection(event);
-      setMenuVisibility(direction === scrollDirection.UP);
-    });
+    determineScrollDirection();
   };
 
   if (window.matchMedia) {
@@ -85,7 +110,7 @@
   const toggleButtons = document.getElementsByClassName("toggle-menu-visiblity")
 
   Array.from(toggleButtons).forEach(function (button) {
-    button.onclick = toggleMenuVisibility;
+    button.onclick = menu.toggle;
   })
 })();
 

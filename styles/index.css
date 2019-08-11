@@ -93,10 +93,22 @@ a:active {
   color: var(--emphasized-text-color);
 }
 
-nav.fixed {
+nav#main-menu {
+  --hidden-height: -1.5em;
+}
+
+nav.opening {
   position: fixed;
   width: 100%;
   animation: peekaboo 0.5s ease-in-out;
+  top: 0;
+}
+
+nav.closed {
+  position: fixed;
+  width: 100%;
+  animation: hideaboo 0.5s ease-in-out;
+  top: var(--hidden-height);
 }
 
 nav.phantom {
@@ -173,10 +185,20 @@ summary > span:after {
 
 @keyframes peekaboo {
   0% {
-    top: -100px;
+    top: var(--hidden-height);
   }
 
   100% {
     top: 0px;
+  }
+}
+
+@keyframes hideaboo {
+  0% {
+    top: 0px;
+  }
+
+  100% {
+    top: var(--hidden-height);
   }
 }
