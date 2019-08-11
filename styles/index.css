@@ -1,110 +1,110 @@
 :root {
-    /*
-        Credit for the color scheme goes to the Solarized project by Ethan Schoonover:
+  /*
+  Credit for the color scheme goes to the Solarized project by Ethan Schoonover:
 
-        https://ethanschoonover.com/solarized/
-    */
-    --background-color: #002b36;
-    --highlight-background-color: #073642;
-    --body-text-color: #839496;
-    --emphasized-text-color: #93a1a1;
+  https://ethanschoonover.com/solarized/
+   */
+  --background-color: #002b36;
+  --highlight-background-color: #073642;
+  --body-text-color: #839496;
+  --emphasized-text-color: #93a1a1;
 
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        --background-color: #fdf6e3;
-        --highlight-background-color: #eee8d5;
-        --body-text-color: #586e75;
-        --emphasized-text-color: #073642;
-    }
+  :root {
+    --background-color: #fdf6e3;
+    --highlight-background-color: #eee8d5;
+    --body-text-color: #586e75;
+    --emphasized-text-color: #073642;
+  }
 }
 
 body {
-    margin: 0;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 24px;
-    background-color: var(--background-color);
-    color: var(--body-text-color);
+  margin: 0;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 24px;
+  background-color: var(--background-color);
+  color: var(--body-text-color);
 }
 
 main {
-    min-height: 80vh;
-    padding-left: 5em;
-    padding-right: 5em;
-    padding-bottom: 5em;
+  min-height: 80vh;
+  padding-left: 5em;
+  padding-right: 5em;
+  padding-bottom: 5em;
 
 }
 
 @media screen and (max-width: 1000px) {
-    main {
-        padding-left: 1em;
-        padding-right: 1em;
-    }
+  main {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }
 
 nav {
-    background: var(--highlight-background-color);
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    font-weight: bolder;
+  background: var(--highlight-background-color);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  font-weight: bolder;
 }
 
 @media screen and (max-width: 1000px) {
-    nav {
-        flex-direction: column;
-        max-height: 1.35em;
-        overflow: hidden;
-        transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-    }
+  nav {
+    flex-direction: column;
+    max-height: 1.35em;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  }
 
-    nav:hover {
-        max-height: 100%;
-        transition: max-height 1s ease-in-out;
-    }
+  nav:hover {
+    max-height: 100%;
+    transition: max-height 1s ease-in-out;
+  }
 }
 
 footer {
-    background-color: #222;
-    color: #ff2;
+  background-color: #222;
+  color: #ff2;
 }
 
 button {
-    padding: 0;
-    border: none;
-    font: inherit;
-    color: inherit;
-    background-color: transparent;
-    /* show a hand cursor on hover; some argue that we
-    should keep the default arrow cursor for buttons */
-    cursor: pointer;
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  /* show a hand cursor on hover; some argue that we
+  should keep the default arrow cursor for buttons */
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: white;
+  background-color: white;
 }
 
 a:link,
 a:visited,
 a:hover,
 a:active {
-    color: var(--emphasized-text-color);
+  color: var(--emphasized-text-color);
 }
 
 nav.fixed {
-    position: fixed;
-    width: 100%;
-    animation: peekaboo 0.5s ease-in-out;
+  position: fixed;
+  width: 100%;
+  animation: peekaboo 0.5s ease-in-out;
 }
 
 nav.phantom {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 nav > div {
-    display: flex;
+  display: flex;
 }
 
 nav a,
@@ -112,19 +112,19 @@ nav a:link,
 nav a:visited,
 nav a:hover,
 nav a:active {
-    color: var(--emphasized-text-color);
-    text-decoration: none;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+  color: var(--emphasized-text-color);
+  text-decoration: none;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 nav.submenu {
-    position: absolute;
-    visibility: hidden;
-    top: 100%;
-    width: initial;
+  position: absolute;
+  visibility: hidden;
+  top: 100%;
+  width: initial;
 }
 
 a.expander:hover ~ nav.submenu, 
@@ -133,50 +133,50 @@ a.expander:focus ~ nav.submenu,
 nav.submenu:hover,
 nav.submenu:focus,
 nav.submenu:active {
-    visibility: visible;
-    display: flex;
-    flex-direction: column;
-    opacity: 1;
-    animation: fadeFromNone 0.5s ease-in;
+  visibility: visible;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  animation: fadeFromNone 0.5s ease-in;
 }
 
 summary > span {
-    color: var(--emphasized-text-color);
-    text-transform: lowercase;
-    font-style: italic;
-    font-size: 0.8em;
+  color: var(--emphasized-text-color);
+  text-transform: lowercase;
+  font-style: italic;
+  font-size: 0.8em;
 }
 
 summary > span:before {
-    content: "(";
+  content: "(";
 }
 
 summary > span:after {
-    content: ")";
+  content: ")";
 }
 
 @keyframes fadeFromNone {
-    0% {
-        visibility: hidden;
-        opacity: 0;
-    }
+  0% {
+    visibility: hidden;
+    opacity: 0;
+  }
 
-    .01% {
-        visibility: visible;
-        opacity: 0;
-    }
+  .01% {
+    visibility: visible;
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 100;
-    }
+  100% {
+    opacity: 100;
+  }
 }
 
 @keyframes peekaboo {
-    0% {
-        top: -100px;
-    }
+  0% {
+    top: -100px;
+  }
 
-    100% {
-        top: 0px;
-    }
+  100% {
+    top: 0px;
+  }
 }
