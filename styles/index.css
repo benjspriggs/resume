@@ -93,20 +93,26 @@ a:active {
   color: var(--emphasized-text-color);
 }
 
-nav#main-menu {
+nav.detached {
   --navigation-hidden-height: -1.5em;
-}
-
-nav.opening {
   position: fixed;
   width: 100%;
+}
+
+nav.detached.opening {
   animation: peekaboo 0.5s ease-in-out;
   top: 0;
 }
 
-nav.closed {
-  position: fixed;
-  width: 100%;
+nav.detached.open {
+  top: 0;
+}
+
+nav.detached.closed {
+  top: var(--navigation-hidden-height);
+}
+
+nav.detached.closing {
   animation: hideaboo 0.5s ease-in-out;
   top: var(--navigation-hidden-height);
 }
