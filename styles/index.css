@@ -12,15 +12,6 @@
   scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background-color: #fdf6e3;
-    --highlight-background-color: #eee8d5;
-    --body-text-color: #586e75;
-    --emphasized-text-color: #073642;
-  }
-}
-
 body {
   margin: 0;
   font-family: "Lucida Console", Monaco, monospace;
@@ -37,33 +28,12 @@ main {
 
 }
 
-@media screen and (max-width: 1000px) {
-  main {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-}
-
 nav {
   background: var(--highlight-background-color);
   display: flex;
   flex-direction: row;
   position: relative;
   font-weight: bolder;
-}
-
-@media screen and (max-width: 1000px) {
-  nav {
-    flex-direction: column;
-    max-height: 1.35em;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-  }
-
-  nav:hover {
-    max-height: 100%;
-    transition: max-height 1s ease-in-out;
-  }
 }
 
 footer {
@@ -187,6 +157,36 @@ summary > span:after {
 
   100% {
     opacity: 100;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  nav {
+    flex-direction: column;
+    max-height: 1.35em;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  }
+
+  nav.detached.open:hover {
+    max-height: 100%;
+    transition: max-height 1s ease-in-out;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  main {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #fdf6e3;
+    --highlight-background-color: #eee8d5;
+    --body-text-color: #586e75;
+    --emphasized-text-color: #073642;
   }
 }
 
