@@ -80,6 +80,7 @@ button {
   /* show a hand cursor on hover; some argue that we
   should keep the default arrow cursor for buttons */
   cursor: pointer;
+  min-height: 1.35em;
 }
 
 button:hover {
