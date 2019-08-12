@@ -64,6 +64,15 @@ a:active {
   color: var(--emphasized-text-color);
 }
 
+ul.books {
+  list-style-type: none;
+}
+
+ul.books > li:before {
+  content: '📚';
+  margin-right: 0.33em;
+}
+
 nav.detached {
   --navigation-hidden-height: -1.5em;
   position: fixed;
