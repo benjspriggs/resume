@@ -143,7 +143,7 @@
 
   window.onscroll = function () {
     if (shouldUseScrollVisibility) {
-      if (window.scrollY > 500) {
+      if (window.scrollY > 250) {
         determineScrollDirection();
       } else {
         lastPageY = window.scrollY;
