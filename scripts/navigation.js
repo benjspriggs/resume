@@ -26,26 +26,36 @@
     function open() {
       return new Promise(function (resolve) {
         mainMenu.classList.remove("closed");
-        mainMenu.classList.add("opening");
-        setTimeout(function () {
-          mainMenu.classList.remove("opening");
-          mainMenu.classList.add("open");
+        mainMenu.classList.add("open");
+        if (isSmallScreen()) {
           isOpen = true;
           resolve(true);
-        }, 750);
+        } else {
+          mainMenu.classList.add("opening");
+          setTimeout(function () {
+            mainMenu.classList.remove("opening");
+            isOpen = true;
+            resolve(true);
+          }, 750);
+        }
       });
     };
 
     function close() {
       return new Promise(function (resolve) {
         mainMenu.classList.remove("open");
-        mainMenu.classList.add("closing");
-        setTimeout(function () {
-          mainMenu.classList.remove("closing");
-          mainMenu.classList.add("closed");
+        mainMenu.classList.add("closed");
+        if (isSmallScreen()) {
           isOpen = false;
           resolve(false);
-        }, 750);
+        } else {
+          mainMenu.classList.add("closing");
+          setTimeout(function () {
+            mainMenu.classList.remove("closing");
+            isOpen = false;
+            resolve(false);
+          }, 750);
+        }
       });
     };
 
@@ -70,6 +80,8 @@
         if (isOpen) return;
         if (isOpenActionActive) return;
 
+        this.detach();
+
         isOpenActionActive = true;
 
         if (activeAction) {
@@ -92,14 +104,22 @@
       },
       toggle: function () {
         if (isOpen) {
-          close();
+          this.close();
         } else {
-          open();
+          this.open();
         }
       },
       reset: function () {
         removePhantomFromDOM();
         mainMenu.classList.remove("detached", "open", "opening", "closed", "closing");
+      },
+      attach: function () {
+        removePhantomFromDOM();
+        mainMenu.classList.remove("detached");
+      },
+      detach: function () {
+        isOpen = !isSmallScreen();
+        mainMenu.classList.add("detached");
       }
     };
   })();
@@ -123,7 +143,12 @@
 
   window.onscroll = function () {
     if (shouldUseScrollVisibility) {
-      determineScrollDirection();
+      if (window.scrollY > 500) {
+        determineScrollDirection();
+      } else {
+        lastPageY = window.scrollY;
+        menu.attach();
+      }
     }
   };
 
