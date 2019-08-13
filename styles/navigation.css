@@ -70,8 +70,10 @@ nav.phantom {
 
 @media screen and (max-width: 1000px) {
   nav {
+    --nav-collapsed-height: 1.35em;
+
     flex-direction: column;
-    max-height: 1.35em;
+    max-height: var(--nav-collapsed-height);
     overflow: hidden;
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
   }
@@ -88,7 +90,7 @@ nav.phantom {
 
   nav.detached.closed {
     top: 0;
-    max-height: 1.35em;
+    max-height: var(--nav-collapsed-height);
     transition: max-height 1s ease-in-out;
   }
 
