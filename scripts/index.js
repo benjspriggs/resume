@@ -6,10 +6,14 @@
 }());
 
 (function () {
+  function isSmallScreen() {
+    return document.documentElement.clientWidth <= 1000;
+  }
+
   const menu = (function () {
     const mainMenu = document.getElementById("main-menu");
     const mainMenuPhantom = mainMenu.cloneNode(true);
-    let isOpen = true;
+    let isOpen = !isSmallScreen();
 
     mainMenuPhantom.id = "";
     mainMenuPhantom.classList.add("phantom");
@@ -108,7 +112,7 @@
   })();
 
   let lastPageY = 0;
-  let shouldSetVisibilityFromScroll = true;
+  let shouldUseScrollVisibility = !isSmallScreen();
 
   /**
    * 
@@ -125,18 +129,16 @@
   }
 
   window.onscroll = function () {
-    if (!shouldSetVisibilityFromScroll) {
-      return;
+    if (shouldUseScrollVisibility) {
+      determineScrollDirection();
     }
-
-    determineScrollDirection();
   };
 
   if (window.matchMedia) {
-    const smallScreenQuery = window.matchMedia("(max-width: 1000px)");
+    const smallScreenQuery = window.matchMedia("screen and (max-width: 1000px)");
 
     smallScreenQuery.addListener(function (event) {
-      shouldSetVisibilityFromScroll = event.matches;
+      shouldUseScrollVisibility = !event.matches;
     });
   }
 
