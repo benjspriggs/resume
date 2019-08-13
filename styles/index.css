@@ -177,7 +177,24 @@ summary > span:after {
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
   }
 
-  nav.detached.open:hover {
+  nav.detached.closing {
+    animation: none;
+    top: initial;
+  }
+
+  nav.detached.opening {
+    animation: none;
+    top: initial;
+  }
+
+  nav.detached.closed {
+    top: 0;
+    max-height: 1.35em;
+    transition: max-height 1s ease-in-out;
+  }
+
+  nav.detached.open {
+    top: 0;
     max-height: 100%;
     transition: max-height 1s ease-in-out;
   }
