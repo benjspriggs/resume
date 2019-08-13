@@ -28,14 +28,6 @@ main {
 
 }
 
-nav {
-  background: var(--highlight-background-color);
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  font-weight: bolder;
-}
-
 footer {
   background-color: #222;
   color: #ff2;
@@ -73,71 +65,6 @@ ul.books > li:before {
   margin-right: 0.33em;
 }
 
-nav.detached {
-  --navigation-hidden-height: -1.5em;
-  position: fixed;
-  width: 100%;
-}
-
-nav.detached.opening {
-  animation: peekaboo 0.5s ease-in-out;
-  top: 0;
-}
-
-nav.detached.open {
-  top: 0;
-}
-
-nav.detached.closed {
-  top: var(--navigation-hidden-height);
-}
-
-nav.detached.closing {
-  animation: hideaboo 0.5s ease-in-out;
-  top: var(--navigation-hidden-height);
-}
-
-nav.phantom {
-  visibility: hidden;
-}
-
-nav > div {
-  display: flex;
-}
-
-nav a,
-nav a:link,
-nav a:visited,
-nav a:hover,
-nav a:active {
-  color: var(--emphasized-text-color);
-  text-decoration: none;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
-nav.submenu {
-  position: absolute;
-  visibility: hidden;
-  top: 100%;
-  width: initial;
-}
-
-a.expander:hover ~ nav.submenu, 
-a.expander:active ~ nav.submenu,
-a.expander:focus ~ nav.submenu,
-nav.submenu:hover,
-nav.submenu:focus,
-nav.submenu:active {
-  visibility: visible;
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-  animation: fadeFromNone 0.5s ease-in;
-}
-
 summary > span {
   color: var(--emphasized-text-color);
   text-transform: lowercase;
@@ -170,37 +97,6 @@ summary > span:after {
 }
 
 @media screen and (max-width: 1000px) {
-  nav {
-    flex-direction: column;
-    max-height: 1.35em;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-  }
-
-  nav.detached.closing {
-    animation: none;
-    top: initial;
-  }
-
-  nav.detached.opening {
-    animation: none;
-    top: initial;
-  }
-
-  nav.detached.closed {
-    top: 0;
-    max-height: 1.35em;
-    transition: max-height 1s ease-in-out;
-  }
-
-  nav.detached.open {
-    top: 0;
-    max-height: 100%;
-    transition: max-height 1s ease-in-out;
-  }
-}
-
-@media screen and (max-width: 1000px) {
   main {
     padding-left: 1em;
     padding-right: 1em;
@@ -216,22 +112,3 @@ summary > span:after {
   }
 }
 
-@keyframes peekaboo {
-  0% {
-    top: var(--navigation-hidden-height);
-  }
-
-  100% {
-    top: 0px;
-  }
-}
-
-@keyframes hideaboo {
-  0% {
-    top: 0px;
-  }
-
-  100% {
-    top: var(--navigation-hidden-height);
-  }
-}
