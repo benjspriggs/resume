@@ -41,7 +41,7 @@ nav > div {
 }
 
 nav.detached {
-  --navigation-hidden-height: -2em;
+  --navigation-hidden-height: -3em;
   position: fixed;
   width: 100%;
 }
