@@ -190,7 +190,35 @@
       <h1>Projects</h1>
       <details>
         <summary>Grading Script Automation</summary>
-        <p>Here's words about the grading scripts.</p>
+        <p>
+        This project mostly arose out of some side work I was doing. As part of my undergrad experience, I worked as a TA (Teacher's Assistant) for the undergraduate computer science courses at Portland State University.
+        </p>
+        <p>
+        Actually, the full title was "Technical Course Support Specialist", since this role included grading tests, grading homework, proctoring these mock technical interviews that would happen twice a school quarter, holding office hours/ giving support to undergrad student,s and any other administrative errata that needed tending to for the 100+ students that would come through every quarter.
+        </p>
+        <p>
+        The homework for these undergrad courses would be due about every two weeks (in a kind of checkpoint system, students would be working on a project over the term in most cases), and those grades were expected to be available before exams. Generally, in about a week.
+        </p>
+        <p>
+        Originally, the process took about 1 and 1/2 to 2 hours per student, since each TA would have to sit down and review:
+        <ul>
+          <li>Did this student do what the assignment asked?</li>
+          <li>Did they do it reasonably efficiently?</li>
+          <li>Did they use any "forbidden" libraries or patterns? (The courses were in C++, and using <code>std::string</code> was forbidden, along with <code>goto</code>)</li>
+          <li>Did they leak any memory?</li>
+          <li>Does the program work?</li>
+        </ul>
+        </p>
+        <p>
+        Between my own classes, and the 40-50 assignments that had to be turned around in a week, I didn't see myself having much time to play music, or to really enjoy my own college experience. So, I decided to automate the tasks that could be automated, and do the rest by hand.
+        </p>
+        <p>
+        The result of some Bash, some Python, and some unit tests <a href="https://github.com/sstephenson/bats">written using BATS</a> is here:
+        <a title="Grading scripts used to grade undergraduate homework assignments" href="https://github.com/benjspriggs/grading">benjspriggs/grading on GitHub</a>
+        </p>
+        <p>
+        This turned my part time job into a part part part time job (30 minutes about every two weeks) that ended up improving the general quality of feedback and consistency of grading across the different undergraduate classes! It was my first taste of doing something technical to solve a particular problem, and it's fed my desire to continue to do similar things in the future.
+        </p>
       </details>
     </section>
 
