@@ -45,6 +45,13 @@ button {
   min-height: 1.35em;
 }
 
+code {
+  color: var(--emphasized-text-color);
+  background: var(--highlight-background-color);
+  padding-left: 0.15em;
+  padding-right: 0.15em;
+}
+
 button:hover {
   background-color: white;
 }
