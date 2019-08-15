@@ -122,7 +122,7 @@
     };
   })();
 
-  let lastPageY = 0;
+  let lastPageY = window.scrollY;
   let shouldUseScrollVisibility = !isSmallScreen();
 
   /**
