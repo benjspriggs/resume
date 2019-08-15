@@ -72,9 +72,6 @@
       isCloseActionActive = false;
     };
 
-    addPhantomToDOM();
-    mainMenu.classList.add("detached");
-
     return {
       open: function () {
         if (isOpen) return;
@@ -119,6 +116,7 @@
       },
       detach: function () {
         isOpen = !isSmallScreen();
+        addPhantomToDOM();
         mainMenu.classList.add("detached");
       }
     };
