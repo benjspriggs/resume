@@ -50,8 +50,9 @@
           resolve(true);
         } else {
           mainMenu.classList.add(options.animationClass);
-          setTimeout(function () {
+          animationTimerHandle = setTimeout(function () {
             mainMenu.classList.remove(options.animationClass);
+            animationTimerHandle = null;
             resolve(true);
           }, 750);
         }
@@ -88,27 +89,23 @@
      * @type {Promise}
      */
     let activeAction = null;
-    let isOpenActionActive = false;
-    let isCloseActionActive = false;
+    let animationTimerHandle = null;
 
     function clearActiveActions() {
       console.time("clearing active actions");
       activeAction = null;
-      isOpenActionActive = false;
-      isCloseActionActive = false;
+      animationTimerHandle = null;
       console.timeEnd("clearing active actions");
     };
 
     return {
       open: function () {
         if (isOpen) return;
-        if (isOpenActionActive) return;
+        if (animationTimerHandle) return;
 
         console.time("open (outer)");
 
         this.detach();
-
-        isOpenActionActive = true;
 
         if (activeAction) {
           activeAction.then(open);
@@ -120,11 +117,9 @@
       },
       close: function () {
         if (!isOpen) return;
-        if (isCloseActionActive) return;
+        if (animationTimerHandle) return;
 
         console.time("close (outer)");
-
-        isCloseActionActive  = true;
 
         if (activeAction) {
           activeAction.then(close);
