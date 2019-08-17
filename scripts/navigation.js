@@ -60,7 +60,6 @@
     };
 
     function open() {
-      console.time("open (inner)");
       return toggle({
         add: "open",
         remove: "closed",
@@ -68,12 +67,10 @@
       })
         .then(function () {
           isOpen = true;
-          console.timeEnd("open (inner)");
         });
     };
 
     function close() {
-      console.time("close (inner)");
       return toggle({
         add: "close",
         remove: "open",
@@ -81,7 +78,6 @@
       })
         .then(function () {
           isOpen = false;
-          console.timeEnd("close (inner)");
         });
     };
 
@@ -92,18 +88,14 @@
     let animationTimerHandle = null;
 
     function clearActiveActions() {
-      console.time("clearing active actions");
       activeAction = null;
       animationTimerHandle = null;
-      console.timeEnd("clearing active actions");
     };
 
     return {
       open: function () {
         if (isOpen) return;
         if (animationTimerHandle) return;
-
-        console.time("open (outer)");
 
         this.detach();
 
@@ -112,22 +104,16 @@
         } else {
           activeAction = open().finally(clearActiveActions);
         }
-
-        console.timeEnd("open (outer)");
       },
       close: function () {
         if (!isOpen) return;
         if (animationTimerHandle) return;
-
-        console.time("close (outer)");
 
         if (activeAction) {
           activeAction.then(close);
         } else {
           activeAction = close().finally(clearActiveActions);
         }
-
-        console.timeEnd("close (outer)");
       },
       toggle: function () {
         if (isOpen) {
@@ -167,7 +153,6 @@
    * @param {MouseEvent} event 
    */
   function determineScrollDirection() {
-    console.log("determine");
     if (currentPageY > lastPageY) {
       menu.close();
     } else {
@@ -179,8 +164,6 @@
     if (!shouldUseScrollVisibility) {
       return;
     };
-
-    console.log("onscroll");
 
     lastPageY = currentPageY;
     currentPageY = window.scrollY;
