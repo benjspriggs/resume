@@ -1,7 +1,19 @@
 (function () {
-  function isSmallScreen() {
-    return document.documentElement.clientWidth <= 1000;
-  }
+  const isSmallScreen = (function () {
+    function isSmall() {
+      return document.documentElement.clientWidth <= 1000;
+    }
+
+    let lastValue = isSmall();
+
+    window.addEventListener("resize", function () {
+      lastValue = isSmall();
+    });
+
+    return function () {
+      return lastValue;
+    };
+  })();
 
   const menu = (function () {
     const mainMenu = document.getElementById("main-menu");
@@ -23,40 +35,52 @@
       }
     };
 
-    function open() {
+    /**
+     * @param {Object}
+     * @param {string} options.remove
+     * @param {string} options.add
+     * @param {string} options.animationClass
+     */
+    function toggle(options) {
       return new Promise(function (resolve) {
-        mainMenu.classList.remove("closed");
-        mainMenu.classList.add("open");
-        if (isSmallScreen()) {
-          isOpen = true;
-          resolve(true);
-        } else {
-          mainMenu.classList.add("opening");
-          setTimeout(function () {
-            mainMenu.classList.remove("opening");
-            isOpen = true;
+        window.requestAnimationFrame(function () {
+          mainMenu.classList.remove(options.remove);
+          mainMenu.classList.add(options.add);
+          if (isSmallScreen()) {
             resolve(true);
-          }, 750);
-        }
+          } else {
+            mainMenu.classList.add(options.animationClass);
+            setTimeout(function () {
+              window.requestAnimationFrame(function () {
+                mainMenu.classList.remove(options.animationClass);
+                resolve(true);
+              });
+            }, 750);
+          }
+        });
       });
     };
 
+    function open() {
+      return toggle({
+        add: "open",
+        remove: "closed",
+        animationClass: "opening"
+      })
+        .then(function () {
+          isOpen = true;
+        });
+    };
+
     function close() {
-      return new Promise(function (resolve) {
-        mainMenu.classList.remove("open");
-        mainMenu.classList.add("closed");
-        if (isSmallScreen()) {
+      return toggle({
+        add: "close",
+        remove: "open",
+        animationClass: "closing"
+      })
+        .then(function () {
           isOpen = false;
-          resolve(false);
-        } else {
-          mainMenu.classList.add("closing");
-          setTimeout(function () {
-            mainMenu.classList.remove("closing");
-            isOpen = false;
-            resolve(false);
-          }, 750);
-        }
-      });
+        });
     };
 
     /**
@@ -107,17 +131,23 @@
         }
       },
       reset: function () {
-        removePhantomFromDOM();
-        mainMenu.classList.remove("detached", "open", "opening", "closed", "closing");
+        window.requestAnimationFrame(function () {
+          removePhantomFromDOM();
+          mainMenu.classList.remove("detached", "open", "opening", "closed", "closing");
+        });
       },
       attach: function () {
-        removePhantomFromDOM();
-        mainMenu.classList.remove("detached");
+        window.requestAnimationFrame(function () {
+          removePhantomFromDOM();
+          mainMenu.classList.remove("detached");
+        });
       },
       detach: function () {
-        isOpen = !isSmallScreen();
-        addPhantomToDOM();
-        mainMenu.classList.add("detached");
+        window.requestAnimationFrame(function () {
+          isOpen = !isSmallScreen();
+          addPhantomToDOM();
+          mainMenu.classList.add("detached");
+        });
       }
     };
   })();
@@ -140,14 +170,18 @@
   }
 
   window.onscroll = function () {
-    if (shouldUseScrollVisibility) {
+    if (!shouldUseScrollVisibility) {
+      return;
+    };
+
+    window.requestAnimationFrame(function () {
       if (window.scrollY > 250) {
         determineScrollDirection();
       } else {
         lastPageY = window.scrollY;
         menu.attach();
       }
-    }
+    });
   };
 
   if (window.matchMedia) {
