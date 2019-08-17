@@ -72,7 +72,7 @@
 
     function close() {
       return toggle({
-        add: "close",
+        add: "closed",
         remove: "open",
         animationClass: "closing"
       })
