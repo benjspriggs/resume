@@ -43,25 +43,23 @@
      */
     function toggle(options) {
       return new Promise(function (resolve) {
-        window.requestAnimationFrame(function () {
-          mainMenu.classList.remove(options.remove);
-          mainMenu.classList.add(options.add);
-          if (isSmallScreen()) {
+        mainMenu.classList.remove(options.remove);
+        mainMenu.classList.add(options.add);
+
+        if (isSmallScreen()) {
+          resolve(true);
+        } else {
+          mainMenu.classList.add(options.animationClass);
+          setTimeout(function () {
+            mainMenu.classList.remove(options.animationClass);
             resolve(true);
-          } else {
-            mainMenu.classList.add(options.animationClass);
-            setTimeout(function () {
-              window.requestAnimationFrame(function () {
-                mainMenu.classList.remove(options.animationClass);
-                resolve(true);
-              });
-            }, 750);
-          }
-        });
+          }, 750);
+        }
       });
     };
 
     function open() {
+      console.time("open (inner)");
       return toggle({
         add: "open",
         remove: "closed",
@@ -69,10 +67,12 @@
       })
         .then(function () {
           isOpen = true;
+          console.timeEnd("open (inner)");
         });
     };
 
     function close() {
+      console.time("close (inner)");
       return toggle({
         add: "close",
         remove: "open",
@@ -80,6 +80,7 @@
       })
         .then(function () {
           isOpen = false;
+          console.timeEnd("close (inner)");
         });
     };
 
@@ -91,15 +92,19 @@
     let isCloseActionActive = false;
 
     function clearActiveActions() {
+      console.time("clearing active actions");
       activeAction = null;
       isOpenActionActive = false;
       isCloseActionActive = false;
+      console.timeEnd("clearing active actions");
     };
 
     return {
       open: function () {
         if (isOpen) return;
         if (isOpenActionActive) return;
+
+        console.time("open (outer)");
 
         this.detach();
 
@@ -110,10 +115,14 @@
         } else {
           activeAction = open().finally(clearActiveActions);
         }
+
+        console.timeEnd("open (outer)");
       },
       close: function () {
         if (!isOpen) return;
         if (isCloseActionActive) return;
+
+        console.time("close (outer)");
 
         isCloseActionActive  = true;
 
@@ -122,6 +131,8 @@
         } else {
           activeAction = close().finally(clearActiveActions);
         }
+
+        console.timeEnd("close (outer)");
       },
       toggle: function () {
         if (isOpen) {
@@ -153,6 +164,7 @@
   })();
 
   let lastPageY = window.scrollY;
+  let currentPageY = lastPageY;
   let shouldUseScrollVisibility = !isSmallScreen();
 
   /**
@@ -160,13 +172,12 @@
    * @param {MouseEvent} event 
    */
   function determineScrollDirection() {
-    if (window.scrollY > lastPageY) {
+    console.log("determine");
+    if (currentPageY > lastPageY) {
       menu.close();
     } else {
       menu.open();
     }
-
-    lastPageY = window.scrollY;
   }
 
   window.onscroll = function () {
@@ -174,11 +185,15 @@
       return;
     };
 
+    console.log("onscroll");
+
+    lastPageY = currentPageY;
+    currentPageY = window.scrollY;
+
     window.requestAnimationFrame(function () {
-      if (window.scrollY > 250) {
+      if (currentPageY > 250) {
         determineScrollDirection();
       } else {
-        lastPageY = window.scrollY;
         menu.attach();
       }
     });
