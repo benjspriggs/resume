@@ -29,8 +29,8 @@ main {
 }
 
 footer {
-  background-color: #222;
-  color: #ff2;
+  color: var(--emphasized-text-color);
+  background: var(--highlight-background-color);
 }
 
 button {
