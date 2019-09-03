@@ -75,7 +75,7 @@ nav.phantom {
     flex-direction: column;
     max-height: var(--nav-collapsed-height);
     overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   nav.detached.closing {
@@ -91,7 +91,7 @@ nav.phantom {
   nav.detached.closed {
     top: 0;
     max-height: var(--nav-collapsed-height);
-    transition: max-height 1s ease-in-out;
+    transition: max-height 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   nav.detached.open {
