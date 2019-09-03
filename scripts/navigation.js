@@ -109,6 +109,8 @@
         if (!isOpen) return;
         if (animationTimerHandle) return;
 
+        this.detach();
+
         if (activeAction) {
           activeAction.then(close);
         } else {
@@ -135,11 +137,14 @@
         });
       },
       detach: function () {
-        window.requestAnimationFrame(function () {
+        if (mainMenu.classList.contains("detached")) {
+          isOpen = mainMenu.classList.contains("open");
+        } else {
           isOpen = !isSmallScreen();
-          addPhantomToDOM();
-          mainMenu.classList.add("detached");
-        });
+        }
+
+        addPhantomToDOM();
+        mainMenu.classList.add("detached");
       }
     };
   })();
