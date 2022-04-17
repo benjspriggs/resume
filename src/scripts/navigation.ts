@@ -183,7 +183,7 @@ interface MenuToggleOptions {
   if (window.matchMedia) {
     const smallScreenQuery = window.matchMedia("screen and (max-width: 1000px)");
 
-    smallScreenQuery.addListener(function (event) {
+    smallScreenQuery.addEventListener('change', function (event) {
       shouldUseScrollVisibility = !event.matches;
     });
   }
