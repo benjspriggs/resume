@@ -22,13 +22,11 @@
                 mainMenuPhantom.parentElement.removeChild(mainMenuPhantom);
             }
         }
-        ;
         function addPhantomToDOM() {
             if (!mainMenuPhantom.parentElement) {
                 mainMenu.parentElement.insertBefore(mainMenuPhantom, mainMenu.nextSibling);
             }
         }
-        ;
         /**
          * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
          */
@@ -49,34 +47,30 @@
                 }
             });
         }
-        ;
         /** Open the menu. */
         async function open() {
             await toggle({
                 add: "open",
                 remove: "closed",
-                animationClass: "opening"
+                animationClass: "opening",
             });
             isOpen = true;
         }
-        ;
         /** Closes the menu. */
         async function close() {
             await toggle({
                 add: "closed",
                 remove: "open",
-                animationClass: "closing"
+                animationClass: "closing",
             });
             isOpen = false;
         }
-        ;
         let activeAction = null;
         let animationTimerHandle = null;
         function clearActiveActions() {
             activeAction = null;
             animationTimerHandle = null;
         }
-        ;
         return {
             open: function () {
                 if (isOpen)
@@ -133,7 +127,7 @@
                 }
                 addPhantomToDOM();
                 mainMenu.classList.add("detached");
-            }
+            },
         };
     })();
     let lastPageY = window.scrollY;
@@ -151,7 +145,6 @@
         if (!shouldUseScrollVisibility) {
             return;
         }
-        ;
         lastPageY = currentPageY;
         currentPageY = window.scrollY;
         window.requestAnimationFrame(function () {
@@ -165,13 +158,13 @@
     };
     if (window.matchMedia) {
         const smallScreenQuery = window.matchMedia("screen and (max-width: 1000px)");
-        smallScreenQuery.addEventListener('change', function (event) {
+        smallScreenQuery.addEventListener("change", function (event) {
             shouldUseScrollVisibility = !event.matches;
         });
     }
     const toggleButtons = document.getElementsByClassName("toggle-menu-visiblity");
     Array.from(toggleButtons).forEach(function (button) {
-        button.addEventListener('click', function () {
+        button.addEventListener("click", function () {
             menu.toggle();
         });
     });

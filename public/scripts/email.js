@@ -6,4 +6,4 @@
             element.href = "mailto:" + name + "@" + domain + "." + tld;
         });
     });
-}());
+})();
