@@ -30,54 +30,46 @@
         }
         ;
         /**
-         * @param {Object} options
-         * @param {string} options.remove
-         * @param {string} options.add
-         * @param {string} options.animationClass
+         * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
          */
         function toggle(options) {
             return new Promise(function (resolve) {
                 mainMenu.classList.remove(options.remove);
                 mainMenu.classList.add(options.add);
                 if (isSmallScreen()) {
-                    resolve(true);
+                    resolve();
                 }
                 else {
                     mainMenu.classList.add(options.animationClass);
                     animationTimerHandle = setTimeout(function () {
                         mainMenu.classList.remove(options.animationClass);
                         animationTimerHandle = null;
-                        resolve(true);
+                        resolve();
                     }, 750);
                 }
             });
         }
         ;
-        function open() {
-            return toggle({
+        /** Open the menu. */
+        async function open() {
+            await toggle({
                 add: "open",
                 remove: "closed",
                 animationClass: "opening"
-            })
-                .then(function () {
-                isOpen = true;
             });
+            isOpen = true;
         }
         ;
-        function close() {
-            return toggle({
+        /** Closes the menu. */
+        async function close() {
+            await toggle({
                 add: "closed",
                 remove: "open",
                 animationClass: "closing"
-            })
-                .then(function () {
-                isOpen = false;
             });
+            isOpen = false;
         }
         ;
-        /**
-         * @type {Promise}
-         */
         let activeAction = null;
         let animationTimerHandle = null;
         function clearActiveActions() {
@@ -173,7 +165,7 @@
     };
     if (window.matchMedia) {
         const smallScreenQuery = window.matchMedia("screen and (max-width: 1000px)");
-        smallScreenQuery.addListener(function (event) {
+        smallScreenQuery.addEventListener('change', function (event) {
             shouldUseScrollVisibility = !event.matches;
         });
     }
