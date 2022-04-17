@@ -13,5 +13,5 @@ $ python --version
 3.X.X
 $ python -m http.server 8080
 $ # or
-$ npx http-server -g true .
+$ npx http-server -g true public/
 ```
