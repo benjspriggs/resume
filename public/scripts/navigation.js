@@ -17,7 +17,9 @@
 
   const menu = (function () {
     const mainMenu = document.getElementById("main-menu");
-    const mainMenuPhantom = mainMenu.cloneNode(true);
+    const mainMenuPhantom =
+      (/** @type {HTMLElement} */
+        (mainMenu.cloneNode(true)));
     let isOpen = !isSmallScreen();
 
     mainMenuPhantom.id = "";
@@ -36,7 +38,7 @@
     };
 
     /**
-     * @param {Object}
+     * @param {Object} options
      * @param {string} options.remove
      * @param {string} options.add
      * @param {string} options.animationClass
@@ -153,10 +155,6 @@
   let currentPageY = lastPageY;
   let shouldUseScrollVisibility = !isSmallScreen();
 
-  /**
-   * 
-   * @param {MouseEvent} event 
-   */
   function determineScrollDirection() {
     if (currentPageY > lastPageY) {
       menu.close();
@@ -193,9 +191,9 @@
   const toggleButtons = document.getElementsByClassName("toggle-menu-visiblity")
 
   Array.from(toggleButtons).forEach(function (button) {
-    button.onclick = function () {
+    button.addEventListener('click', function () {
       menu.toggle();
-    }
+    });
   });
 })();
 

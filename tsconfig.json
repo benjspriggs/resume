@@ -3,6 +3,7 @@
         "checkJs": true,
         "allowJs": true,
         "noEmit": true,
+        "target": "es2018"
     },
     "include": ["public/scripts/*.js"]
 }
