@@ -26,8 +26,7 @@ interface MenuToggleOptions {
 
   const menu = (function () {
     const mainMenu = document.getElementById("main-menu");
-    const mainMenuPhantom =
-        mainMenu.cloneNode(true) as HTMLAnchorElement;
+    const mainMenuPhantom = mainMenu.cloneNode(true) as HTMLAnchorElement;
     let isOpen = !isSmallScreen();
 
     mainMenuPhantom.id = "";
@@ -37,13 +36,16 @@ interface MenuToggleOptions {
       if (mainMenuPhantom.parentElement) {
         mainMenuPhantom.parentElement.removeChild(mainMenuPhantom);
       }
-    };
+    }
 
     function addPhantomToDOM() {
       if (!mainMenuPhantom.parentElement) {
-        mainMenu.parentElement.insertBefore(mainMenuPhantom, mainMenu.nextSibling);
+        mainMenu.parentElement.insertBefore(
+          mainMenuPhantom,
+          mainMenu.nextSibling
+        );
       }
-    };
+    }
 
     /**
      * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
@@ -64,27 +66,27 @@ interface MenuToggleOptions {
           }, 750);
         }
       });
-    };
+    }
 
     /** Open the menu. */
     async function open(): Promise<void> {
       await toggle({
         add: "open",
         remove: "closed",
-        animationClass: "opening"
+        animationClass: "opening",
       });
       isOpen = true;
-    };
+    }
 
     /** Closes the menu. */
     async function close() {
       await toggle({
         add: "closed",
         remove: "open",
-        animationClass: "closing"
+        animationClass: "closing",
       });
       isOpen = false;
-    };
+    }
 
     let activeAction: Promise<void> = null;
     let animationTimerHandle = null;
@@ -92,7 +94,7 @@ interface MenuToggleOptions {
     function clearActiveActions() {
       activeAction = null;
       animationTimerHandle = null;
-    };
+    }
 
     return {
       open: function () {
@@ -129,7 +131,13 @@ interface MenuToggleOptions {
       reset: function () {
         window.requestAnimationFrame(function () {
           removePhantomFromDOM();
-          mainMenu.classList.remove("detached", "open", "opening", "closed", "closing");
+          mainMenu.classList.remove(
+            "detached",
+            "open",
+            "opening",
+            "closed",
+            "closing"
+          );
         });
       },
       attach: function () {
@@ -147,7 +155,7 @@ interface MenuToggleOptions {
 
         addPhantomToDOM();
         mainMenu.classList.add("detached");
-      }
+      },
     };
   })();
 
@@ -166,7 +174,7 @@ interface MenuToggleOptions {
   window.onscroll = function () {
     if (!shouldUseScrollVisibility) {
       return;
-    };
+    }
 
     lastPageY = currentPageY;
     currentPageY = window.scrollY;
@@ -181,19 +189,22 @@ interface MenuToggleOptions {
   };
 
   if (window.matchMedia) {
-    const smallScreenQuery = window.matchMedia("screen and (max-width: 1000px)");
+    const smallScreenQuery = window.matchMedia(
+      "screen and (max-width: 1000px)"
+    );
 
-    smallScreenQuery.addEventListener('change', function (event) {
+    smallScreenQuery.addEventListener("change", function (event) {
       shouldUseScrollVisibility = !event.matches;
     });
   }
 
-  const toggleButtons = document.getElementsByClassName("toggle-menu-visiblity")
+  const toggleButtons = document.getElementsByClassName(
+    "toggle-menu-visiblity"
+  );
 
   Array.from(toggleButtons).forEach(function (button) {
-    button.addEventListener('click', function () {
+    button.addEventListener("click", function () {
       menu.toggle();
     });
   });
 })();
-

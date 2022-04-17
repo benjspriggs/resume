@@ -1,6 +1,6 @@
 (function () {
   window.addEventListener("load", function () {
-    const links = document.getElementsByClassName("email-me")
+    const links = document.getElementsByClassName("email-me");
 
     Array.from(links).forEach(function (element: HTMLAnchorElement) {
       const name = element.getAttribute("data-address-name"),
@@ -10,5 +10,4 @@
       element.href = "mailto:" + name + "@" + domain + "." + tld;
     });
   });
-}());
-
+})();
