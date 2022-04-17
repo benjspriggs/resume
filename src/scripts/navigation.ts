@@ -1,3 +1,12 @@
+interface MenuToggleOptions {
+  /** Class to remove from the menu's class list. */
+  remove: string;
+  /** Class to add from the menu's class list. */
+  add: string;
+  /** Class to add as an animation while toggling between different states. */
+  animationClass: string;
+}
+
 (function () {
   const isSmallScreen = (function () {
     function isSmall() {
@@ -37,55 +46,47 @@
     };
 
     /**
-     * @param {Object} options
-     * @param {string} options.remove
-     * @param {string} options.add
-     * @param {string} options.animationClass
+     * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
      */
-    function toggle(options) {
-      return new Promise(function (resolve) {
+    function toggle(options: MenuToggleOptions) {
+      return new Promise<void>(function (resolve) {
         mainMenu.classList.remove(options.remove);
         mainMenu.classList.add(options.add);
 
         if (isSmallScreen()) {
-          resolve(true);
+          resolve();
         } else {
           mainMenu.classList.add(options.animationClass);
           animationTimerHandle = setTimeout(function () {
             mainMenu.classList.remove(options.animationClass);
             animationTimerHandle = null;
-            resolve(true);
+            resolve();
           }, 750);
         }
       });
     };
 
-    function open() {
-      return toggle({
+    /** Open the menu. */
+    async function open(): Promise<void> {
+      await toggle({
         add: "open",
         remove: "closed",
         animationClass: "opening"
-      })
-        .then(function () {
-          isOpen = true;
-        });
+      });
+      isOpen = true;
     };
 
-    function close() {
-      return toggle({
+    /** Closes the menu. */
+    async function close() {
+      await toggle({
         add: "closed",
         remove: "open",
         animationClass: "closing"
-      })
-        .then(function () {
-          isOpen = false;
-        });
+      });
+      isOpen = false;
     };
 
-    /**
-     * @type {Promise}
-     */
-    let activeAction = null;
+    let activeAction: Promise<void> = null;
     let animationTimerHandle = null;
 
     function clearActiveActions() {
