@@ -18,8 +18,7 @@
   const menu = (function () {
     const mainMenu = document.getElementById("main-menu");
     const mainMenuPhantom =
-      (/** @type {HTMLElement} */
-        (mainMenu.cloneNode(true)));
+        mainMenu.cloneNode(true) as HTMLAnchorElement;
     let isOpen = !isSmallScreen();
 
     mainMenuPhantom.id = "";

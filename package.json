@@ -1,0 +1,22 @@
+{
+  "name": "resume",
+  "version": "0.1.0",
+  "description": "## what is this?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjspriggs/resume.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benjspriggs/resume/issues"
+  },
+  "homepage": "https://github.com/benjspriggs/resume#readme",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}
