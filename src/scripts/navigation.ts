@@ -8,6 +8,146 @@ interface MenuToggleOptions {
 }
 
 (function () {
+  class Menu {
+    private isOpen = !isSmallScreen();
+    private activeAction: Promise<void> = null;
+    private animationTimerHandle: number | null = null;
+    private elementPhantom: HTMLAnchorElement;
+
+    constructor(private readonly element: HTMLAnchorElement) {
+      const mainMenuPhantom = mainMenu.cloneNode(true) as HTMLAnchorElement;
+
+      mainMenuPhantom.id = "";
+      mainMenuPhantom.classList.add("phantom");
+    }
+
+    open() {
+      if (this.isOpen) return;
+      if (this.animationTimerHandle) return;
+
+      this.detach();
+
+      if (this.activeAction) {
+        this.activeAction.then(this.open);
+      } else {
+        this.activeAction = this.openMenu().finally(this.clearActiveActions);
+      }
+    }
+
+    close() {
+      if (!this.isOpen) return;
+      if (this.animationTimerHandle) return;
+
+      this.detach();
+
+      if (this.activeAction) {
+        this.activeAction.then(close);
+      } else {
+        this.activeAction = this.closeMenu().finally(this.clearActiveActions);
+      }
+    }
+
+    toggle() {
+      if (this.isOpen) {
+        this.close();
+      } else {
+        this.open();
+      }
+    }
+
+    reset() {
+      window.requestAnimationFrame(function () {
+        this.removePhantomFromDOM();
+        this.element.classList.remove(
+          "detached",
+          "open",
+          "opening",
+          "closed",
+          "closing"
+        );
+      });
+    }
+
+    attach() {
+      window.requestAnimationFrame(function () {
+        this.removePhantomFromDOM();
+        this.element.classList.remove("detached");
+      });
+    }
+
+    detach() {
+      if (this.element.classList.contains("detached")) {
+        this.isOpen = this.element.classList.contains("open");
+      } else {
+        this.isOpen = !isSmallScreen();
+      }
+
+      this.addPhantomToDOM();
+      this.element.classList.add("detached");
+    }
+
+    /**
+     * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
+     */
+    private toggleMenuState(options: MenuToggleOptions) {
+      return new Promise<void>(function (resolve) {
+        this.element.classList.remove(options.remove);
+        this.element.classList.add(options.add);
+
+        if (isSmallScreen()) {
+          resolve();
+        } else {
+          this.element.classList.add(options.animationClass);
+          this.animationTimerHandle = setTimeout(function () {
+            this.element.classList.remove(options.animationClass);
+            this.animationTimerHandle = null;
+            resolve();
+          }, 750);
+        }
+      });
+    }
+
+    /** Open the menu. */
+    private async openMenu(): Promise<void> {
+      await this.toggleMenuState({
+        add: "open",
+        remove: "closed",
+        animationClass: "opening",
+      });
+      this.isOpen = true;
+    }
+
+    /** Closes the menu. */
+    private async closeMenu() {
+      await this.toggleMenuState({
+        add: "closed",
+        remove: "open",
+        animationClass: "closing",
+      });
+      this.isOpen = false;
+    }
+
+    private clearActiveActions() {
+      this.activeAction = null;
+      this.animationTimerHandle = null;
+    }
+
+    private removePhantomFromDOM() {
+      if (this.elementPhantom.parentElement) {
+        this.elementPhantom.parentElement.removeChild(this.elementPhantom);
+      }
+    }
+
+    private addPhantomToDOM() {
+      if (!this.elementPhantom.parentElement) {
+        this.element.parentElement.insertBefore(
+          this.elementPhantom,
+          this.element.nextSibling
+        );
+      }
+    }
+  }
+
   const isSmallScreen = (function () {
     function isSmall() {
       return document.documentElement.clientWidth <= 1000;
@@ -24,144 +164,11 @@ interface MenuToggleOptions {
     };
   })();
 
-  const menu = (function () {
-    const mainMenu = document.getElementById("main-menu");
-    const mainMenuPhantom = mainMenu.cloneNode(true) as HTMLAnchorElement;
-    let isOpen = !isSmallScreen();
-
-    mainMenuPhantom.id = "";
-    mainMenuPhantom.classList.add("phantom");
-
-    function removePhantomFromDOM() {
-      if (mainMenuPhantom.parentElement) {
-        mainMenuPhantom.parentElement.removeChild(mainMenuPhantom);
-      }
-    }
-
-    function addPhantomToDOM() {
-      if (!mainMenuPhantom.parentElement) {
-        mainMenu.parentElement.insertBefore(
-          mainMenuPhantom,
-          mainMenu.nextSibling
-        );
-      }
-    }
-
-    /**
-     * Toggles the expanded/ collapsed state for the menu. Not supported for small screens.
-     */
-    function toggle(options: MenuToggleOptions) {
-      return new Promise<void>(function (resolve) {
-        mainMenu.classList.remove(options.remove);
-        mainMenu.classList.add(options.add);
-
-        if (isSmallScreen()) {
-          resolve();
-        } else {
-          mainMenu.classList.add(options.animationClass);
-          animationTimerHandle = setTimeout(function () {
-            mainMenu.classList.remove(options.animationClass);
-            animationTimerHandle = null;
-            resolve();
-          }, 750);
-        }
-      });
-    }
-
-    /** Open the menu. */
-    async function open(): Promise<void> {
-      await toggle({
-        add: "open",
-        remove: "closed",
-        animationClass: "opening",
-      });
-      isOpen = true;
-    }
-
-    /** Closes the menu. */
-    async function close() {
-      await toggle({
-        add: "closed",
-        remove: "open",
-        animationClass: "closing",
-      });
-      isOpen = false;
-    }
-
-    let activeAction: Promise<void> = null;
-    let animationTimerHandle: number|null = null;
-
-    function clearActiveActions() {
-      activeAction = null;
-      animationTimerHandle = null;
-    }
-
-    return {
-      open: function () {
-        if (isOpen) return;
-        if (animationTimerHandle) return;
-
-        this.detach();
-
-        if (activeAction) {
-          activeAction.then(open);
-        } else {
-          activeAction = open().finally(clearActiveActions);
-        }
-      },
-      close: function () {
-        if (!isOpen) return;
-        if (animationTimerHandle) return;
-
-        this.detach();
-
-        if (activeAction) {
-          activeAction.then(close);
-        } else {
-          activeAction = close().finally(clearActiveActions);
-        }
-      },
-      toggle: function () {
-        if (isOpen) {
-          this.close();
-        } else {
-          this.open();
-        }
-      },
-      reset: function () {
-        window.requestAnimationFrame(function () {
-          removePhantomFromDOM();
-          mainMenu.classList.remove(
-            "detached",
-            "open",
-            "opening",
-            "closed",
-            "closing"
-          );
-        });
-      },
-      attach: function () {
-        window.requestAnimationFrame(function () {
-          removePhantomFromDOM();
-          mainMenu.classList.remove("detached");
-        });
-      },
-      detach: function () {
-        if (mainMenu.classList.contains("detached")) {
-          isOpen = mainMenu.classList.contains("open");
-        } else {
-          isOpen = !isSmallScreen();
-        }
-
-        addPhantomToDOM();
-        mainMenu.classList.add("detached");
-      },
-    };
-  })();
-
   let lastPageY = window.scrollY;
   let currentPageY = lastPageY;
   let shouldUseScrollVisibility = !isSmallScreen();
+  const mainMenu = document.getElementById("main-menu") as HTMLAnchorElement;
+  const menu = new Menu(mainMenu);
 
   function determineScrollDirection() {
     if (currentPageY > lastPageY) {
