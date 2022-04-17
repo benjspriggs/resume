@@ -3,6 +3,7 @@
         "checkJs": true,
         "allowJs": true,
         "target": "es2018",
+        "noImplicitAny": true,
         "outDir": "public",
         "rootDir": "src"
     },

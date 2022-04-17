@@ -89,7 +89,7 @@ interface MenuToggleOptions {
     }
 
     let activeAction: Promise<void> = null;
-    let animationTimerHandle = null;
+    let animationTimerHandle: number|null = null;
 
     function clearActiveActions() {
       activeAction = null;
