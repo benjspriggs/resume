@@ -7,21 +7,26 @@ interface MenuToggleOptions {
   animationClass: string;
 }
 
-export function isSmallScreen() {
-  function isSmall() {
-    return document.documentElement.clientWidth <= 1000;
-  }
+function isSmall() {
+  return document.documentElement.clientWidth <= 1000;
+}
 
-  let lastValue = isSmall();
-
-  window.addEventListener("resize", function () {
-    lastValue = isSmall();
-  });
-
+function memoized<T>(
+  initialValue: T,
+  updateListener: (updateCallback: (updatedValue: T) => void) => void
+): () => T {
+  let lastValue = initialValue;
+  updateListener((updatedValue) => (lastValue = updatedValue));
   return function () {
     return lastValue;
-  }();
+  };
 }
+
+export const isSmallScreen = memoized(isSmall(), (update) => {
+  window.addEventListener("resize", function () {
+    update(isSmall());
+  });
+});
 
 export class Menu {
   private isOpen = !isSmallScreen();
@@ -51,7 +56,7 @@ export class Menu {
         this.open();
       });
     } else {
-      this.activeAction = this.openMenu().finally(() =>{
+      this.activeAction = this.openMenu().finally(() => {
         this.clearActiveActions();
       });
     }
