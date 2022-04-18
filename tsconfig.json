@@ -5,7 +5,9 @@
         "target": "es2018",
         "noImplicitAny": true,
         "outDir": "public",
-        "rootDir": "src"
+        "rootDir": "src",
+        "module": "es2015",
+        "moduleResolution": "classic",
     },
     "include": ["src/**/*.ts"],
 }
