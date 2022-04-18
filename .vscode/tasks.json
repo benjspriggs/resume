@@ -2,12 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Servce",
-            "type": "process",
-            "command": "npx http-server -g true public/",
-            "problemMatcher": []
-        },
-        {
             "type": "typescript",
             "tsconfig": "tsconfig.json",
             "problemMatcher": [
