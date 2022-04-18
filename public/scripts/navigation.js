@@ -1,4 +1,4 @@
-import { Menu, isSmallScreen } from './menu.js';
+import { Menu, isSmallScreen } from "./menu.js";
 let lastPageY = window.scrollY;
 let currentPageY = lastPageY;
 let shouldUseScrollVisibility = !isSmallScreen();
