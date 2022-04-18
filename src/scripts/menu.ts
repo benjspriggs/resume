@@ -20,7 +20,7 @@ export function isSmallScreen() {
 
   return function () {
     return lastValue;
-  };
+  }();
 }
 
 export class Menu {
@@ -37,17 +37,23 @@ export class Menu {
   }
 
   open() {
-    if (this.isOpen) return;
-    if (this.animationTimerHandle) return;
+    if (this.isOpen) {
+      return;
+    }
+    if (this.animationTimerHandle) {
+      return;
+    }
 
     this.detach();
 
     if (this.activeAction) {
-      this.activeAction.then(() => this.open());
+      this.activeAction.then(() => {
+        this.open();
+      });
     } else {
-      this.activeAction = this.openMenu().finally(() =>
-        this.clearActiveActions()
-      );
+      this.activeAction = this.openMenu().finally(() =>{
+        this.clearActiveActions();
+      });
     }
   }
 
